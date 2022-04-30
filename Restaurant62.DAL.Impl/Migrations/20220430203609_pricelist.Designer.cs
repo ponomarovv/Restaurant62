@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant62.DAL.Impl.Context;
 
@@ -11,9 +12,10 @@ using Restaurant62.DAL.Impl.Context;
 namespace Restaurant62.DAL.Impl.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    partial class RestaurantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220430203609_pricelist")]
+    partial class pricelist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,15 +39,15 @@ namespace Restaurant62.DAL.Impl.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PriceListId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("PricePer100G")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<int?>("PricelistId")
-                        .HasColumnType("int");
-
                     b.HasKey("DishId");
 
-                    b.HasIndex("PricelistId");
+                    b.HasIndex("PriceListId");
 
                     b.ToTable("Dishes");
                 });
@@ -110,7 +112,7 @@ namespace Restaurant62.DAL.Impl.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Restaurant62.Entities.Pricelist", b =>
+            modelBuilder.Entity("Restaurant62.Entities.PRICELIST", b =>
                 {
                     b.Property<int>("PricelistId")
                         .ValueGeneratedOnAdd()
@@ -129,9 +131,11 @@ namespace Restaurant62.DAL.Impl.Migrations
 
             modelBuilder.Entity("Restaurant62.Entities.Dish", b =>
                 {
-                    b.HasOne("Restaurant62.Entities.Pricelist", "Pricelist")
+                    b.HasOne("Restaurant62.Entities.PRICELIST", "Pricelist")
                         .WithMany("Dishes")
-                        .HasForeignKey("PricelistId");
+                        .HasForeignKey("PriceListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pricelist");
                 });
@@ -191,7 +195,7 @@ namespace Restaurant62.DAL.Impl.Migrations
                     b.Navigation("DishOrders");
                 });
 
-            modelBuilder.Entity("Restaurant62.Entities.Pricelist", b =>
+            modelBuilder.Entity("Restaurant62.Entities.PRICELIST", b =>
                 {
                     b.Navigation("Dishes");
                 });

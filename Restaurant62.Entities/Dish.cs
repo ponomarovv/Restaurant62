@@ -1,4 +1,6 @@
-﻿namespace Restaurant62.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Restaurant62.Entities;
 
 public class Dish
 {
@@ -9,7 +11,8 @@ public class Dish
     public decimal? FinalPrice { get; set; }
     
     // 1:N Pricelist : Dish
-    public int PriceListId { get; set; }
+    [ForeignKey("PricelistId")] 
+    public int? PricelistId { get; set; }
     public Pricelist Pricelist { get; set; }
     
     // M:N dish:ingredients

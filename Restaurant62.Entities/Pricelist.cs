@@ -1,11 +1,16 @@
-﻿namespace Restaurant62.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class PRICELISTasdfasdfasdf
+namespace Restaurant62.Entities;
+
+public class Pricelist
 {
-    public int Id { get; set; }
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int PricelistId { get; set; }
+
     public string Name { get; set; }
-    
+
     // 1:M Pricelist:dishes
     public List<Dish> Dishes { get; set; }
 }
