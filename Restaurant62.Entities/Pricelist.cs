@@ -1,8 +1,8 @@
 ﻿namespace Restaurant62.Entities;
 
-public class Pricelist
+public class PRICELISTasdfasdfasdf
 {
-    public int PricelistId { get; set; }
+    public int Id { get; set; }
     
     public string Name { get; set; }
     
