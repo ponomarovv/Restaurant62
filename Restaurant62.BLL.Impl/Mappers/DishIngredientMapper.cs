@@ -10,6 +10,7 @@ public class DishIngredientMapper : IBackMapper<DishIngredient , DishIngredientM
     {
         return new DishIngredientModel()
         {
+            DishIngredientId = entity.DishIngredientId,
             IngredientId = entity.IngredientId,
             DishId = entity.DishId
         };
@@ -19,7 +20,7 @@ public class DishIngredientMapper : IBackMapper<DishIngredient , DishIngredientM
     {
         return new DishIngredient() 
         {
-            
+            DishIngredientId = model.DishIngredientId,
             IngredientId = model.IngredientId,
             DishId = model.DishId
         };

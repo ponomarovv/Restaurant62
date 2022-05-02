@@ -10,4 +10,6 @@ public class DishIngredientRepository : GenericRepository<int, DishIngredient>, 
     public DishIngredientRepository(RestaurantDbContext dbContext) : base(dbContext)
     {
     }
+    
+    
 }

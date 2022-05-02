@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Restaurant62.DAL.Abstract.Repository;
 using Restaurant62.DAL.Abstract.Repository.Base;
+using Restaurant62.DAL.Impl.Context;
 using Restaurant62.DAL.Impl.Repository;
 using Restaurant62.DAL.Impl.Repository.Base;
 
@@ -10,7 +11,7 @@ public static class DalDependencyInstaller
 {
     public static void InstallRepositories(this IServiceCollection services)
     {
-        
+        services.AddScoped<RestaurantDbContext, RestaurantDbContext>();
         
         services.AddTransient<IDishRepository, DishRepository>();
         services.AddTransient<IIngredientRepository, IngredientRepository>();
@@ -21,5 +22,7 @@ public static class DalDependencyInstaller
         services.AddTransient<IDishOrderRepository, DishOrderRepository>();
         
         services.AddTransient<IUnitOfWork, UnitOfWork>();
+        
+        
     }
 }

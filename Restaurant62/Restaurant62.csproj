@@ -15,8 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Restaurant62.BLL.Abstract\Restaurant62.BLL.Abstract.csproj" />
+      <ProjectReference Include="..\Restaurant62.BLL.Impl\Restaurant62.BLL.Impl.csproj" />
       <ProjectReference Include="..\Restaurant62.DAL.Impl\Restaurant62.DAL.Impl.csproj" />
       <ProjectReference Include="..\Restaurant62.Entities\Restaurant62.Entities.csproj" />
+      <ProjectReference Include="..\Restaurant62.Models\Restaurant62.Models.csproj" />
     </ItemGroup>
 
 </Project>

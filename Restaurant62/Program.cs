@@ -1,9 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Unicode;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Restaurant62.BLL.Abstract.Services;
+using Restaurant62.BLL.Impl;
+using Restaurant62.DAL.Abstract.Repository;
 using Restaurant62.DAL.Abstract.Repository.Base;
+using Restaurant62.DAL.Impl;
 using Restaurant62.DAL.Impl.Context;
 using Restaurant62.DAL.Impl.Repository;
 using Restaurant62.DAL.Impl.Repository.Base;
 using Restaurant62.Entities;
+using Restaurant62.Entities.Enums;
+using Restaurant62.Models;
 
 
 var optionsBuilder = new DbContextOptionsBuilder<RestaurantDbContext>();
@@ -12,9 +20,31 @@ var options = optionsBuilder
     .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RestaurantDb;Trusted_Connection=True;")
     .Options;
 
-RestaurantDbContext context = new RestaurantDbContext(options);
+// RestaurantDbContext context = new RestaurantDbContext(options);
 
-IUnitOfWork unitOfWork = new UnitOfWork(context);
+// IUnitOfWork unitOfWork = new UnitOfWork(context);
+
+IServiceCollection serviceCollection = new ServiceCollection();
+serviceCollection.InstallRepositories();
+serviceCollection.InstallMappers();
+serviceCollection.InstallServices();
+
+IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+
+
+IDishIngredientService? dishIngredientService = serviceProvider.GetService<IDishIngredientService>();
+IDishService? dishService = serviceProvider.GetService<IDishService>();
+IIngredientService? ingredientService = serviceProvider.GetService<IIngredientService>();
+IOrderService? orderService = serviceProvider.GetService<IOrderService>();
+IPricelistService? pricelistService = serviceProvider.GetService<IPricelistService>();
+IDishOrderService? dishOrderService = serviceProvider.GetService<IDishOrderService>();
+
+
+// IUnitOfWork? unitOfWork = serviceProvider.GetService<IUnitOfWork>();
+
+
+
+
 //
 // Ingredient ingredient1 = new Ingredient()
 // {
@@ -116,29 +146,87 @@ IUnitOfWork unitOfWork = new UnitOfWork(context);
 // unitOfWork.SaveChanges();
 
 
+// dishIngredientService
+
+DishIngredientModel dishIngredient1 = new DishIngredientModel()
+{
+    DishId = 10,
+    IngredientId = 1,
+};
+
+var dishIngredient2 = new DishIngredientModel()
+{
+    DishId = 10,
+    IngredientId = 2,
+};
+
+var dishIngredient3 = new DishIngredientModel()
+{
+    DishId = 10,
+    IngredientId = 3,
+};
+//
+// dishIngredientService?.Create(dishIngredient1);
+// dishIngredientService?.Create(dishIngredient2);
+// dishIngredientService?.Create(dishIngredient3);
+
+
+var dish8 = new DishModel()
+{
+    DishId = 8,
+    Name = "dish8",
+    Potion = PortionSize.OneHundredGram,
+    PricePer100G = 100,
+    PricelistId = 3,
+};
+
+var dish9 = new DishModel()
+{
+    DishId = 9,
+    Name = "dish9",
+    Potion = PortionSize.TwoHundredGram,
+    PricePer100G = 200,
+    PricelistId = 4,
+};
+
+var dish10 = new DishModel()
+{
+    DishId = 10,
+    Name = "dish10",
+    Potion = PortionSize.ThreeHundredGram,
+    PricePer100G = 300,
+    PricelistId = 4,
+};
+
+dishService?.Update(dish8);
+dishService?.Update(dish9);
+dishService?.Update(dish10);
+
+
+
 // pricelists to dishes 1:N. succeed
-Console.WriteLine("pricelists to dishes 1:N. succeed:");
-foreach (var p in unitOfWork.PriceListRepository.GetAll(x => true))
+Console.WriteLine("Pricelists to dishes 1:N. succeed:");
+foreach (var p in pricelistService.GetAll())
 {
     Console.WriteLine("Pricelist: " + p.Name + " :");
-    var item = unitOfWork.DishRepository.GetAll(x => x.PricelistId == p.PricelistId);
+    var item = dishService.GetAll().Where(x=> x.PricelistId == p.PricelistId);
     foreach (var i in item)
     {
-        Console.WriteLine("\t" + i.Name);
+        Console.WriteLine($"\t  DishId: {i.DishId}, Name: {i.Name}, Potion: {i.Potion}, " +
+                          $"PricePer100G: {i.PricePer100G}, FinalPrice: {i.FinalPrice} ");
     }
 
     Console.WriteLine();
 }
 
 Console.WriteLine(new string('-', 50));
-Console.WriteLine();
 
 // dishes to ingredients M:N
 Console.WriteLine("dishes to ingredients M:N");
 
-var dishIngredients = unitOfWork.DishIngredientRepository.GetAll(x => true);
-var dishes = unitOfWork.DishRepository.GetAll(x => true);
-var ingredients = unitOfWork.IngredientRepository.GetAll(x => true);
+var dishIngredients = dishIngredientService.GetAll();
+var dishes = dishService.GetAll();
+var ingredients = ingredientService.GetAll();
 
 var dishesIds = dishIngredients.GroupBy(d => d.DishId, i => i.IngredientId).ToList();
 
@@ -187,6 +275,6 @@ foreach (var d in dishesIds)
 // }
 
 
-context.Dispose();
+// context.Dispose();
 Console.WriteLine(new string('-', 50));
 Console.WriteLine("hi");

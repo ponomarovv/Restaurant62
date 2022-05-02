@@ -10,6 +10,7 @@ public class DishOrderMapper : IBackMapper<DishOrder, DishOrderModel>
     {
         return new DishOrderModel()
         {
+            DishOrderId = entity.DishOrderId,
             DishId = entity.DishId,
             OrderId = entity.OrderId,
         };
@@ -19,6 +20,7 @@ public class DishOrderMapper : IBackMapper<DishOrder, DishOrderModel>
     {
         return new DishOrder()
         {
+            DishOrderId = model.DishOrderId,
             DishId = model.DishId,
             OrderId = model.OrderId,
         };

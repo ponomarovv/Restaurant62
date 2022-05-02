@@ -29,8 +29,8 @@ public class RestaurantDbContext : DbContext
         modelBuilder.Entity<Dish>().Property(p => p.FinalPrice).HasColumnType("decimal(18,4)");
         
         
-        modelBuilder.Entity<DishIngredient>().HasKey(sc => new { sc.DishId, sc.IngredientId });
-        modelBuilder.Entity<DishOrder>().HasKey(sc => new { sc.DishId, sc.OrderId });
+        // modelBuilder.Entity<DishIngredient>().HasKey(sc => new { sc.DishId, sc.IngredientId });
+        // modelBuilder.Entity<DishOrder>().HasKey(sc => new { sc.DishId, sc.OrderId });
         
         //
         // modelBuilder.Entity<DishIngredient>()
@@ -54,6 +54,7 @@ public class RestaurantDbContext : DbContext
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Pricelist> PriceLists { get; set; }
+    
     public DbSet<DishIngredient> DishIngredients { get; set; }
     public DbSet<DishOrder> DishOrders { get; set; }
 
