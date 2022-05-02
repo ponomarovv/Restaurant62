@@ -6,4 +6,20 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Services" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Restaurant62.BLL.Abstract\Restaurant62.BLL.Abstract.csproj" />
+      <ProjectReference Include="..\Restaurant62.DAL.Abstract\Restaurant62.DAL.Abstract.csproj" />
+      <ProjectReference Include="..\Restaurant62.DAL.Impl\Restaurant62.DAL.Impl.csproj" />
+      <ProjectReference Include="..\Restaurant62.Entities\Restaurant62.Entities.csproj" />
+      <ProjectReference Include="..\Restaurant62.Models\Restaurant62.Models.csproj" />
+    </ItemGroup>
+
 </Project>

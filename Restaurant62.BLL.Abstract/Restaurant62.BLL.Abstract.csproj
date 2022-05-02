@@ -6,4 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Restaurant62.DAL.Abstract\Restaurant62.DAL.Abstract.csproj" />
+      <ProjectReference Include="..\Restaurant62.DAL.Impl\Restaurant62.DAL.Impl.csproj" />
+      <ProjectReference Include="..\Restaurant62.Entities\Restaurant62.Entities.csproj" />
+      <ProjectReference Include="..\Restaurant62.Models\Restaurant62.Models.csproj" />
+    </ItemGroup>
+
 </Project>
