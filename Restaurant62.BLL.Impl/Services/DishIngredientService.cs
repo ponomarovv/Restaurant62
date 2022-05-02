@@ -23,7 +23,6 @@ public class DishIngredientService : IDishIngredientService
         var result = _dishIngredientMapper.Map(_unitOfWork.DishIngredientRepository.Add(_dishIngredientMapper.MapBack(model)));
         _unitOfWork.SaveChanges();
         
-        // _unitOfWork.Dispose();
 
         return model;
     }
@@ -32,7 +31,6 @@ public class DishIngredientService : IDishIngredientService
     {
         var result = _unitOfWork.DishIngredientRepository.GetAll(x => true).Select(_dishIngredientMapper.Map).ToList();
         
-        // _unitOfWork.Dispose();
         return result;
     }
 
@@ -40,7 +38,6 @@ public class DishIngredientService : IDishIngredientService
     {
         var result =_dishIngredientMapper.Map(_unitOfWork.DishIngredientRepository.GetById(id));
         
-        // _unitOfWork.Dispose();
         return result;
     }
 
@@ -55,7 +52,6 @@ public class DishIngredientService : IDishIngredientService
         var result = _unitOfWork.DishIngredientRepository.Update(entity);
         _unitOfWork.SaveChanges();
 
-        // _unitOfWork.Dispose();
         
         return result;
     }
@@ -66,7 +62,6 @@ public class DishIngredientService : IDishIngredientService
         _unitOfWork.SaveChanges();
         
         
-        // _unitOfWork.Dispose();
         
         return result;
     }

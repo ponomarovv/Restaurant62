@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurant62.DAL.Abstract.Repository.Base;
 using Restaurant62.DAL.Impl.Context;
 using Restaurant62.DAL.Impl.Repository;
 using Restaurant62.DAL.Impl.Repository.Base;
@@ -13,7 +14,7 @@ var options = optionsBuilder
 
 RestaurantDbContext context = new RestaurantDbContext(options);
 
-UnitOfWork unitOfWork = new UnitOfWork(context);
+IUnitOfWork unitOfWork = new UnitOfWork(context);
 //
 // Ingredient ingredient1 = new Ingredient()
 // {
@@ -115,44 +116,64 @@ UnitOfWork unitOfWork = new UnitOfWork(context);
 // unitOfWork.SaveChanges();
 
 
-
 // pricelists to dishes 1:N. succeed
-
-// foreach (var p in unitOfWork.PriceListRepository.GetAll(x=>true))
-// {
-//     Console.WriteLine(p.Name + " :");
-//     var item = unitOfWork.DishRepository.GetAll(x => x.PricelistId == p.PricelistId);
-//     foreach (var i in item)
-//     {
-//         Console.WriteLine(i.Name);
-//     }
-//
-//     Console.WriteLine();
-//     
-// }
-
-// dishes to ingredients M:N
-
-var all = unitOfWork.DishIngredientRepository.GetAll(x => true);
-
-var result = all.Where(x => x.DishId == 8).Select(x => x.IngredientId);
-
-var ingrs = unitOfWork.IngredientRepository.GetAll(x => true);
-
-foreach (var i in ingrs)
+Console.WriteLine("pricelists to dishes 1:N. succeed:");
+foreach (var p in unitOfWork.PriceListRepository.GetAll(x => true))
 {
-    foreach (var resint in result)
+    Console.WriteLine("Pricelist: " + p.Name + " :");
+    var item = unitOfWork.DishRepository.GetAll(x => x.PricelistId == p.PricelistId);
+    foreach (var i in item)
     {
-        if (i.IngredientId == resint)
-        {
-            Console.WriteLine(i.IngredientId);
-            Console.WriteLine(i.Name);
-            
-        }
+        Console.WriteLine("\t" + i.Name);
     }
+
+    Console.WriteLine();
 }
 
+Console.WriteLine(new string('-', 50));
+Console.WriteLine();
 
+// dishes to ingredients M:N
+Console.WriteLine("dishes to ingredients M:N");
+
+var dishIngredients = unitOfWork.DishIngredientRepository.GetAll(x => true);
+var dishes = unitOfWork.DishRepository.GetAll(x => true);
+var ingredients = unitOfWork.IngredientRepository.GetAll(x => true);
+
+var dishesIds = dishIngredients.GroupBy(d => d.DishId, i => i.IngredientId).ToList();
+
+foreach (var d in dishesIds)
+{
+    // d.Key
+    var dish = dishes.FirstOrDefault(x => x.DishId == d.Key);
+    Console.WriteLine(dish.DishId + " " + dish.Name);
+    foreach (var i in d)
+    {
+        var ingr = ingredients.FirstOrDefault(x => x.IngredientId == i);
+        Console.WriteLine("\t" + ingr.IngredientId + " " + ingr.Name);
+    }
+
+    Console.WriteLine();
+}
+
+//
+//
+// var result = dishIngredients.Where(x => x.DishId == 8).Select(x => x.IngredientId);
+//
+// var ingrs = unitOfWork.IngredientRepository.GetAll(x => true);
+//
+// foreach (var i in ingrs)
+// {
+//     foreach (var resint in result)
+//     {
+//         if (i.IngredientId == resint)
+//         {
+//             Console.WriteLine(i.IngredientId);
+//             Console.WriteLine(i.Name);
+//             
+//         }
+//     }
+// }
 
 
 //
@@ -164,7 +185,6 @@ foreach (var i in ingrs)
 //         d.Name
 //     }
 // }
-
 
 
 context.Dispose();

@@ -6,11 +6,10 @@ using Restaurant62.Models;
 
 namespace Restaurant62.BLL.Impl.Services;
 
-
 public class DishService : IDishService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IBackMapper<Dish , DishModel> _dishMapper;
+    private readonly IBackMapper<Dish, DishModel> _dishMapper;
 
 
     public DishService(IUnitOfWork unitOfWork, IBackMapper<Dish, DishModel> dishMapper)
@@ -21,10 +20,11 @@ public class DishService : IDishService
 
     public DishModel Create(DishModel model)
     {
+        GetFinalPrice(model);
+        
         var result = _dishMapper.Map(_unitOfWork.DishRepository.Add(_dishMapper.MapBack(model)));
         _unitOfWork.SaveChanges();
-        
-        // _unitOfWork.Dispose();
+
 
         return model;
     }
@@ -32,16 +32,14 @@ public class DishService : IDishService
     public List<DishModel> GetAll()
     {
         var result = _unitOfWork.DishRepository.GetAll(x => true).Select(_dishMapper.Map).ToList();
-        
-        // _unitOfWork.Dispose();
+
         return result;
     }
 
     public DishModel GetById(int id)
     {
-        var result =_dishMapper.Map(_unitOfWork.DishRepository.GetById(id));
-        
-        // _unitOfWork.Dispose();
+        var result = _dishMapper.Map(_unitOfWork.DishRepository.GetById(id));
+
         return result;
     }
 
@@ -51,25 +49,30 @@ public class DishService : IDishService
         {
             return false;
         }
+        
+        GetFinalPrice(model);
+
         var entity = _dishMapper.MapBack(model);
 
         var result = _unitOfWork.DishRepository.Update(entity);
         _unitOfWork.SaveChanges();
 
-        // _unitOfWork.Dispose();
-        
-        return result;
 
+        return result;
     }
 
     public bool Delete(int id)
     {
-        var result =  _unitOfWork.DishRepository.Delete(id);
+        var result = _unitOfWork.DishRepository.Delete(id);
         _unitOfWork.SaveChanges();
-        
-        
-        // _unitOfWork.Dispose();
-        
+
+
+
         return result;
+    }
+
+    private void GetFinalPrice(DishModel model)
+    {
+        model.FinalPrice = model.PricePer100G * (decimal)model.Potion / 100;
     }
 }

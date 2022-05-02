@@ -24,7 +24,6 @@ public class DishOrderService : IDishOrderService
         var result = _dishEntityMapper.Map(_unitOfWork.DishOrderRepository.Add(_dishEntityMapper.MapBack(model)));
         _unitOfWork.SaveChanges();
         
-        // _unitOfWork.Dispose();
 
         return model;
     }
@@ -33,7 +32,6 @@ public class DishOrderService : IDishOrderService
     {
         var result = _unitOfWork.DishOrderRepository.GetAll(x => true).Select(_dishEntityMapper.Map).ToList();
         
-        // _unitOfWork.Dispose();
         return result;
     }
 
@@ -41,7 +39,6 @@ public class DishOrderService : IDishOrderService
     {
         var result =_dishEntityMapper.Map(_unitOfWork.DishOrderRepository.GetById(id));
         
-        // _unitOfWork.Dispose();
         return result;
     }
 
@@ -56,7 +53,6 @@ public class DishOrderService : IDishOrderService
         var result = _unitOfWork.DishOrderRepository.Update(entity);
         _unitOfWork.SaveChanges();
 
-        // _unitOfWork.Dispose();
         
         return result;
     }
@@ -67,7 +63,6 @@ public class DishOrderService : IDishOrderService
         _unitOfWork.SaveChanges();
         
         
-        // _unitOfWork.Dispose();
         
         return result;
     }

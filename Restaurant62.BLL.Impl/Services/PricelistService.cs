@@ -1,4 +1,5 @@
 ﻿using Restaurant62.BLL.Abstract.Mappers;
+using Restaurant62.BLL.Abstract.Services;
 using Restaurant62.DAL.Abstract.Repository.Base;
 using Restaurant62.Entities;
 using Restaurant62.Models;
@@ -6,7 +7,7 @@ using Restaurant62.Models;
 namespace Restaurant62.BLL.Impl.Services;
 
 
-public class PricelistService : IPriceListService
+public class PricelistService : IPricelistService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IBackMapper<Pricelist, PricelistModel> _priceListMapper;
