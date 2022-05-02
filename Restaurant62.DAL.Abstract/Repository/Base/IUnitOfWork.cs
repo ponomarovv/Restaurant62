@@ -7,8 +7,8 @@ public interface IUnitOfWork : IDisposable
     IOrderRepository OrderRepository { get; }
     IPricelistRepository PriceListRepository { get; }
 
-    // IDishEntityIngredientEntityRepository DishEntityIngredientEntityRepository { get; }
-    // IDishEntityOrderEntityRepository DishEntityOrderEntityRepository { get; }
+    IDishIngredientRepository  DishIngredientRepository { get; }
+    IDishOrderRepository DishOrderRepository { get; }
 
     void SaveChanges();
 }

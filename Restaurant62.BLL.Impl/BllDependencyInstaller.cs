@@ -2,6 +2,7 @@
 using Restaurant62.BLL.Abstract.Mappers;
 using Restaurant62.BLL.Abstract.Services;
 using Restaurant62.BLL.Impl.Mappers;
+using Restaurant62.BLL.Impl.Services;
 using Restaurant62.Entities;
 using Restaurant62.Models;
 
@@ -14,7 +15,7 @@ public static class BllDependencyInstaller
         services.AddTransient<IDishService, DishService>();
         services.AddTransient<IIngredientService, IngredientService>();
         services.AddTransient<IOrderService, OrderService>();
-        services.AddTransient<IPriceListService, PriceListService>();
+        services.AddTransient<IPricelistService, PricelistService>();
         
         services.AddTransient<IDishIngredientService, DishIngredientService>();
         services.AddTransient<IDishOrderService, DishOrderService>();
