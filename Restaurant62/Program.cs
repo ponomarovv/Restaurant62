@@ -219,8 +219,18 @@ DishOrderModel dishOrderModel2 = new DishOrderModel()
 // dishOrderService.Create(dishOrderModel1);
 // dishOrderService.Create(dishOrderModel2);
 
+DishModel dish11 = new DishModel()
+{
+    DishId = 11,
+    Name = "dish8",
+    Potion = PortionSize.TwoHundredGram,
+    PricePer100G = 100.00M,
+    PricelistId = 3,
+};
 
-// order of dishes M:N
+dishService.Update(dish11);
+
+// 1 order of dishes M:N
 Console.WriteLine("order of dishes M:N");
 
 var dishOrders = dishOrderService.GetAll();
@@ -247,7 +257,7 @@ foreach (var o in orderIds)
 
 Console.WriteLine(new string('-', 50));
 
-// pricelists to dishes 1:N. succeed
+// 2 pricelists to dishes 1:N. succeed
 Console.WriteLine("Pricelists to dishes 1:N. succeed:");
 foreach (var p in pricelistService.GetAll())
 {
@@ -264,7 +274,7 @@ foreach (var p in pricelistService.GetAll())
 
 Console.WriteLine(new string('-', 50));
 
-// dishes to ingredients M:N
+// 3 dishes to ingredients M:N
 Console.WriteLine("dishes to ingredients M:N");
 
 var dishIngredients = dishIngredientService.GetAll();
