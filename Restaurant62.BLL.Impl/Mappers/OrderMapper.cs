@@ -16,6 +16,8 @@ public class OrderMapper : IBackMapper<Order , OrderModel>
         {
             OrderId = entity.OrderId,
             // Dishes = ModelDishes
+            
+            OrderPrice = entity.OrderPrice,
           
         };
     }
@@ -27,7 +29,9 @@ public class OrderMapper : IBackMapper<Order , OrderModel>
         return new Order()
         {
             OrderId = model.OrderId,
-            // Dishes = DishesEntities
+         
+            
+            OrderPrice = model.OrderPrice,
         };
     }
 }

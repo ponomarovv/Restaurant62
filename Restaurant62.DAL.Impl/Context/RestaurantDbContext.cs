@@ -25,8 +25,9 @@ public class RestaurantDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)// Crée la migration
     {
-        modelBuilder.Entity<Dish>().Property(p => p.PricePer100G).HasColumnType("decimal(18,4)");
-        modelBuilder.Entity<Dish>().Property(p => p.FinalPrice).HasColumnType("decimal(18,4)");
+        modelBuilder.Entity<Dish>().Property(p => p.PricePer100G).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Dish>().Property(p => p.FinalPrice).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Order>().Property(p => p.OrderPrice).HasColumnType("decimal(18,2)");
         
         
         // modelBuilder.Entity<DishIngredient>().HasKey(sc => new { sc.DishId, sc.IngredientId });

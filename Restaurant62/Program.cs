@@ -43,8 +43,6 @@ IDishOrderService? dishOrderService = serviceProvider.GetService<IDishOrderServi
 // IUnitOfWork? unitOfWork = serviceProvider.GetService<IUnitOfWork>();
 
 
-
-
 //
 // Ingredient ingredient1 = new Ingredient()
 // {
@@ -198,18 +196,63 @@ var dish10 = new DishModel()
     PricelistId = 4,
 };
 
-dishService?.Update(dish8);
-dishService?.Update(dish9);
-dishService?.Update(dish10);
+// dishService?.Update(dish8);
+// dishService?.Update(dish9);
+// dishService?.Update(dish10);
+
+OrderModel orderModel1 = new OrderModel() { OrderId = 1 };
+
+// orderService.Create(orderModel1);
+// orderService?.Update(orderModel1);
+
+DishOrderModel dishOrderModel1 = new DishOrderModel()
+{
+    OrderId = 1,
+    DishId = 8,
+};
+
+DishOrderModel dishOrderModel2 = new DishOrderModel()
+{
+    OrderId = 1,
+    DishId = 9,
+};
+// dishOrderService.Create(dishOrderModel1);
+// dishOrderService.Create(dishOrderModel2);
 
 
+// order of dishes M:N
+Console.WriteLine("order of dishes M:N");
+
+var dishOrders = dishOrderService.GetAll();
+var dishes3 = dishService.GetAll();
+var orders = orderService.GetAll();
+
+var orderIds = dishOrders.GroupBy(d => d.OrderId, i => i.DishId);
+
+foreach (var o in orderIds)
+{
+    // d.Key
+    OrderModel? order = orders.FirstOrDefault(x => x.OrderId == o.Key);
+    Console.WriteLine("OrderID: " + order?.OrderId);
+    foreach (var i in o)
+    {
+        var dishModel = dishes3.FirstOrDefault(x => x.DishId == i);
+        Console.WriteLine(
+            $"\t  DishID: {dishModel.DishId},  Name: {dishModel.Name},  FinalPrice: {dishModel.FinalPrice} ");
+    }
+
+    Console.WriteLine("Order Price: " + order.OrderPrice);
+    Console.WriteLine();
+}
+
+Console.WriteLine(new string('-', 50));
 
 // pricelists to dishes 1:N. succeed
 Console.WriteLine("Pricelists to dishes 1:N. succeed:");
 foreach (var p in pricelistService.GetAll())
 {
     Console.WriteLine("Pricelist: " + p.Name + " :");
-    var item = dishService.GetAll().Where(x=> x.PricelistId == p.PricelistId);
+    var item = dishService.GetAll().Where(x => x.PricelistId == p.PricelistId);
     foreach (var i in item)
     {
         Console.WriteLine($"\t  DishId: {i.DishId}, Name: {i.Name}, Potion: {i.Potion}, " +
