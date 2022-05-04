@@ -228,7 +228,7 @@ DishModel dish11 = new DishModel()
     PricelistId = 3,
 };
 
-dishService.Update(dish11);
+// dishService.Update(dish11);
 
 // 1 order of dishes M:N
 Console.WriteLine("order of dishes M:N");
